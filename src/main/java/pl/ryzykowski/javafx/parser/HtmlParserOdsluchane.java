@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import pl.ryzykowski.javafx.config.ConfigOdsluchane;
 import pl.ryzykowski.javafx.dto.Song;
+import pl.ryzykowski.javafx.helper.SSLHelper;
 import pl.ryzykowski.javafx.util.DatesUtilOdsluchane;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class HtmlParserOdsluchane {
 
-    private static final String URL = "https://www.odsluchane.eu/szukaj.php?";
+    private static final String URL = "http://www.odsluchane.eu/szukaj.php?";
     private static final String ARTIST_TITLE_SEPARATOR = " - ";
 
     private ConfigOdsluchane configOdsluchane;
@@ -42,7 +43,7 @@ public class HtmlParserOdsluchane {
     private List<Song> tryToGetSongsForStationAndDate(String stationId, LocalDate date, String timeFrom, String timeTo) throws IOException {
         List<Song> songs = new ArrayList<>();
         String odsluchaneDate = datesUtilOdsluchane.odsluchaneDate(date);
-        Document doc = Jsoup.connect(URL+"r="+stationId+"&date="+odsluchaneDate+"&time_from="+timeFrom+"&time_to="+timeTo).get();
+        Document doc = SSLHelper.getConnection(URL+"r="+stationId+"&date="+odsluchaneDate+"&time_from="+timeFrom+"&time_to="+timeTo).get();
         Iterator<Element> iterator = doc.getElementsByClass("title-link").iterator();
         while (iterator.hasNext()) {
             Element element = iterator.next();

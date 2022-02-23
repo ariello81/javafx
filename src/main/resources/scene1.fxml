@@ -3,10 +3,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="pl.ryzykowski.javafx.controller.SceneController" spacing="20" maxWidth="400" maxHeight="200">
-    <children>
-        <Label fx:id="label1" text="Line 1"/>
-        <Label fx:id="label2" text="Line 2"/>
-        <Button fx:id="button1" text="Click me!" onAction="#buttonClicked"/>
-    </children>
-</VBox>
+<?import javafx.collections.FXCollections?>
+
+<SplitPane xmlns:fx="http://javafx.com/fxml" fx:controller="pl.ryzykowski.javafx.controller.SceneController">
+        <VBox minWidth="300">
+            <children>
+                <Label fx:id="labelArtist" text="Artysta"/>
+                <TextField fx:id="tfArtist"/>
+                <Separator orientation="HORIZONTAL"></Separator>
+                <Label fx:id="labelStation" text="Stacja"/>
+                <ComboBox fx:id="comboStations">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Separator orientation="HORIZONTAL"></Separator>
+                <Button fx:id="btnSearch" text="Click me!" onAction="#btnSearchClicked"/>
+            </children>
+        </VBox>
+        <VBox minWidth="300">
+            <ListView fx:id="songList"/>
+        </VBox>
+</SplitPane>
