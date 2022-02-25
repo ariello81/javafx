@@ -1,6 +1,7 @@
 package pl.ryzykowski.javafx.service.impl;
 
 import pl.ryzykowski.javafx.config.ConfigOdsluchane;
+import pl.ryzykowski.javafx.dto.DistinctTitle;
 import pl.ryzykowski.javafx.dto.Song;
 import pl.ryzykowski.javafx.dto.StationArtistSummary;
 import pl.ryzykowski.javafx.parser.HtmlParserOdsluchane;
@@ -62,15 +63,7 @@ public class HistoryServiceOdsluchane implements HistoryService {
         stationArtistSummary.setDateFrom(dateFrom);
         stationArtistSummary.setDateTo(dateTo);
         stationArtistSummary.setStation(configOdsluchane.getStation(stationId));
-        LinkedHashMap<String, Long> sortedMap = new LinkedHashMap<>();
-        artistSongs
-                .stream()
-                .collect(Collectors.groupingBy(song -> song.getTitle(), Collectors.counting()))
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
-        stationArtistSummary.setDistinctTitles(sortedMap);
+        stationArtistSummary.setDistinctTitles(null); //TO-DO!!!
         return stationArtistSummary;
     }
 
@@ -93,11 +86,6 @@ public class HistoryServiceOdsluchane implements HistoryService {
                 }
                 LocalDate localDateTo = localDateFrom.withDayOfMonth(localDateFrom.lengthOfMonth());
                 StationArtistSummary summary = songsStationForDateRangeAndArtist(stationId, localDateFrom.toString(), localDateTo.toString(), artist);
-                System.out.println(y + " - " + m);
-                Set<String> keys = summary.getDistinctTitles().keySet();
-                for (String key : keys) {
-                    System.out.println(key + ": " + summary.getDistinctTitles().get(key));
-                }
                 try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException ie) {

@@ -3,8 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.collections.FXCollections?>
-
 <SplitPane xmlns:fx="http://javafx.com/fxml" fx:controller="pl.ryzykowski.javafx.controller.SceneController">
         <VBox minWidth="300">
             <children>
@@ -12,12 +10,7 @@
                 <TextField fx:id="tfArtist"/>
                 <Separator orientation="HORIZONTAL"></Separator>
                 <Label fx:id="labelStation" text="Stacja"/>
-                <ComboBox fx:id="comboStations">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                        </FXCollections>
-                    </items>
-                </ComboBox>
+                <ComboBox fx:id="comboStations"/>
                 <Separator orientation="HORIZONTAL"></Separator>
                 <Button fx:id="btnSearch" text="Click me!" onAction="#btnSearchClicked"/>
             </children>
