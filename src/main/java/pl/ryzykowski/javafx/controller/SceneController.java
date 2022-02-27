@@ -13,7 +13,9 @@ import pl.ryzykowski.javafx.service.HistoryService;
 import pl.ryzykowski.javafx.service.impl.HistoryServiceOdsluchane;
 import pl.ryzykowski.javafx.util.DatesUtilOdsluchane;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class SceneController {
@@ -49,9 +51,13 @@ public class SceneController {
     @FXML
     public void btnSearchClicked(Event e){
         StationArtistSummary summary = service.songsStationForArtistYearAndMonth(comboStations.getValue().getId(), tfArtist.getText(), "2022", "2");
-        List<DistinctTitle> distinctTitles = summary.getDistinctTitles();
+        LinkedHashMap<String, Long> distinctTitles = summary.getDistinctTitles();
         System.out.println(distinctTitles.size());
-        songList.getItems().addAll(distinctTitles);
+        songList.getItems().addAll(distinctTitles.entrySet()
+                .stream()
+                .map(entry -> new DistinctTitle(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList())
+        );
         System.out.println();
     }
 

@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:///e:/export/javafx/src/main/resources/scene1.fxml"));
+        loader.setLocation(new URL("file:///c:/Users/Ariel/IdeaProjects/JavaFx/src/main/resources/scene1.fxml"));
         SplitPane splitPane = loader.<SplitPane>load();
 
         Scene scene = new Scene(splitPane, 600,400);

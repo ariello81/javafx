@@ -63,7 +63,15 @@ public class HistoryServiceOdsluchane implements HistoryService {
         stationArtistSummary.setDateFrom(dateFrom);
         stationArtistSummary.setDateTo(dateTo);
         stationArtistSummary.setStation(configOdsluchane.getStation(stationId));
-        stationArtistSummary.setDistinctTitles(null); //TO-DO!!!
+        LinkedHashMap<String, Long> sortedMap = new LinkedHashMap<>();
+        artistSongs
+                .stream()
+                .collect(Collectors.groupingBy(song -> song.getTitle(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+        stationArtistSummary.setDistinctTitles(sortedMap);
         return stationArtistSummary;
     }
 

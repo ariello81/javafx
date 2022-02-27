@@ -10,7 +10,7 @@ public class StationArtistSummary {
     private String dateFrom;
     private String dateTo;
     private String artist;
-    private List<DistinctTitle> distinctTitles;
+    private LinkedHashMap<String, Long> distinctTitles;
     private List<Song> songs;
 
     public StationArtistSummary() {
@@ -56,11 +56,11 @@ public class StationArtistSummary {
         this.songs = songs;
     }
 
-    public List<DistinctTitle> getDistinctTitles() {
+    public LinkedHashMap<String, Long> getDistinctTitles() {
         return distinctTitles;
     }
 
-    public void setDistinctTitles(List<DistinctTitle> distinctTitles) {
+    public void setDistinctTitles(LinkedHashMap<String, Long> distinctTitles) {
         this.distinctTitles = distinctTitles;
     }
 }
