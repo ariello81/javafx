@@ -3,22 +3,24 @@ package pl.ryzykowski.javafx.controller;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import pl.ryzykowski.javafx.config.ConfigOdsluchane;
 import pl.ryzykowski.javafx.dto.DistinctTitle;
-import pl.ryzykowski.javafx.dto.Song;
 import pl.ryzykowski.javafx.dto.Station;
 import pl.ryzykowski.javafx.dto.StationArtistSummary;
-import pl.ryzykowski.javafx.parser.HtmlParserOdsluchane;
+import pl.ryzykowski.javafx.parser.SongsReader;
+import pl.ryzykowski.javafx.parser.StationsReader;
+import pl.ryzykowski.javafx.parser.impl.HtmlSongsReaderOdsluchane;
+import pl.ryzykowski.javafx.parser.impl.StationsReaderOdsluchane;
 import pl.ryzykowski.javafx.service.HistoryService;
 import pl.ryzykowski.javafx.service.impl.HistoryServiceOdsluchane;
-import pl.ryzykowski.javafx.util.DatesUtilOdsluchane;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class SceneController {
+
+    private StationsReader stationsReader;
+    private SongsReader songsReader;
 
     @FXML
     TextField tfArtist;
@@ -26,11 +28,9 @@ public class SceneController {
     @FXML
     ComboBox<Station> comboStations;
 
-    ConfigOdsluchane config;
-
     @FXML
     private void initialize() {
-        comboStations.getItems().addAll(config.getStations());
+        comboStations.getItems().addAll(stationsReader.getStations());
     }
 
     @FXML
@@ -39,17 +39,14 @@ public class SceneController {
     @FXML
     ListView<DistinctTitle> songList;
 
-    HistoryService service;
-
     public SceneController() {
-        config = new ConfigOdsluchane();
-        DatesUtilOdsluchane datesUtil = new DatesUtilOdsluchane();
-        HtmlParserOdsluchane parser = new HtmlParserOdsluchane(config, datesUtil);
-        service = new HistoryServiceOdsluchane(parser, datesUtil, config);
+        stationsReader = new StationsReaderOdsluchane();
+        songsReader = new HtmlSongsReaderOdsluchane();
     }
 
     @FXML
     public void btnSearchClicked(Event e){
+        HistoryService service = new HistoryServiceOdsluchane(songsReader, stationsReader);
         StationArtistSummary summary = service.songsStationForArtistYearAndMonth(comboStations.getValue().getId(), tfArtist.getText(), "2022", "2");
         LinkedHashMap<String, Long> distinctTitles = summary.getDistinctTitles();
         System.out.println(distinctTitles.size());

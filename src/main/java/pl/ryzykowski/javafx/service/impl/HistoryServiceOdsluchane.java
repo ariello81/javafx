@@ -1,12 +1,12 @@
 package pl.ryzykowski.javafx.service.impl;
 
-import pl.ryzykowski.javafx.config.ConfigOdsluchane;
-import pl.ryzykowski.javafx.dto.DistinctTitle;
 import pl.ryzykowski.javafx.dto.Song;
+import pl.ryzykowski.javafx.dto.Station;
 import pl.ryzykowski.javafx.dto.StationArtistSummary;
-import pl.ryzykowski.javafx.parser.HtmlParserOdsluchane;
+import pl.ryzykowski.javafx.parser.SongsReader;
+import pl.ryzykowski.javafx.parser.StationsReader;
 import pl.ryzykowski.javafx.service.HistoryService;
-import pl.ryzykowski.javafx.util.DatesUtilOdsluchane;
+import pl.ryzykowski.javafx.util.DatesUtil;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,21 +15,20 @@ import java.util.stream.Collectors;
 
 public class HistoryServiceOdsluchane implements HistoryService {
 
-    private HtmlParserOdsluchane htmlParserOdsluchane;
-    private DatesUtilOdsluchane datesUtilOdsluchane;
-    private ConfigOdsluchane configOdsluchane;
+    private SongsReader songsReader;
+    private StationsReader stationsReader;
 
-    public HistoryServiceOdsluchane(HtmlParserOdsluchane htmlParserOdsluchane, DatesUtilOdsluchane datesUtilOdsluchane, ConfigOdsluchane configOdsluchane) {
-        this.htmlParserOdsluchane = htmlParserOdsluchane;
-        this.datesUtilOdsluchane = datesUtilOdsluchane;
-        this.configOdsluchane = configOdsluchane;
+    public HistoryServiceOdsluchane(SongsReader songsReader, StationsReader stationsReader) {
+        this.songsReader = songsReader;
+        this.stationsReader = stationsReader;
     }
 
     @Override
     public List<Song> songsStationForDateRange(String stationId, String dateFrom, String dateTo) {
         List<Song> songs = new ArrayList<>();
-        if (configOdsluchane.getStation(stationId) != null && datesUtilOdsluchane.validateDates(dateFrom, dateTo)) {
-            List<LocalDate> dates = datesUtilOdsluchane.getAllDatesBetweenTwoDates(dateFrom, dateTo);
+        Station station = stationsReader.getStation(stationId);
+        if (station != null && DatesUtil.validateDates(dateFrom, dateTo)) {
+            List<LocalDate> dates = DatesUtil.getAllDatesBetweenTwoDates(dateFrom, dateTo);
             final List<String> hours = Arrays.asList("0", "10", "20", "0");
             List<Thread> threads = new ArrayList<>();
             for (LocalDate date : dates) {
@@ -37,7 +36,7 @@ public class HistoryServiceOdsluchane implements HistoryService {
                     String startHour = hours.get(i);
                     String stopHour = hours.get(i + 1);
                     Thread thread = new Thread(() -> {
-                        songs.addAll(htmlParserOdsluchane.getSongsForStationAndDate(stationId, date, startHour, stopHour));
+                        songs.addAll(songsReader.getSongsForStationAndDate(station, date, startHour, stopHour));
                     });
                     threads.add(thread);
                     thread.start();
@@ -62,7 +61,7 @@ public class HistoryServiceOdsluchane implements HistoryService {
         stationArtistSummary.setArtist(artist);
         stationArtistSummary.setDateFrom(dateFrom);
         stationArtistSummary.setDateTo(dateTo);
-        stationArtistSummary.setStation(configOdsluchane.getStation(stationId));
+        stationArtistSummary.setStation(stationsReader.getStation(stationId));
         LinkedHashMap<String, Long> sortedMap = new LinkedHashMap<>();
         artistSongs
                 .stream()

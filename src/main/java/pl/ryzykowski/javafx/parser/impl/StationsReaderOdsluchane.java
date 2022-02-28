@@ -1,15 +1,16 @@
-package pl.ryzykowski.javafx.config;
+package pl.ryzykowski.javafx.parser.impl;
 
 import pl.ryzykowski.javafx.dto.Station;
+import pl.ryzykowski.javafx.parser.StationsReader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigOdsluchane {
+public class StationsReaderOdsluchane implements StationsReader {
 
     private List<Station> stations;
 
-    public ConfigOdsluchane() {
+    public StationsReaderOdsluchane() {
         this.stations = new ArrayList<>();
         this.stations.add(new Station("1", "Radio Zet"));
         this.stations.add(new Station("2", "RMF FM"));
@@ -17,10 +18,6 @@ public class ConfigOdsluchane {
 
     public List<Station> getStations() {
         return stations;
-    }
-
-    public void setStations(List<Station> stations) {
-        this.stations = stations;
     }
 
     public Station getStation(String stationId){
