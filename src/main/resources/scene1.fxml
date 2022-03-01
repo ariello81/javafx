@@ -7,15 +7,24 @@
         <VBox minWidth="300">
             <children>
                 <Label fx:id="labelArtist" text="Artysta"/>
-                <TextField fx:id="tfArtist"/>
-                <Separator orientation="HORIZONTAL"></Separator>
+                <TextField fx:id="tfArtist" text="coldplay"/>
+                <Separator orientation="HORIZONTAL"/>
                 <Label fx:id="labelStation" text="Stacja"/>
                 <ComboBox fx:id="comboStations"/>
-                <Separator orientation="HORIZONTAL"></Separator>
-                <Button fx:id="btnSearch" text="Click me!" onAction="#btnSearchClicked"/>
+                <Separator orientation="HORIZONTAL"/>
+                <Label fx:id="labelDateStart" text="Data początkowa"/>
+                <DatePicker fx:id="dateStart"/>
+                <Separator orientation="HORIZONTAL"/>
+                <Label fx:id="labelDateStop" text="Data końcowa"/>
+                <DatePicker fx:id="dateStop"/>
+                <Separator orientation="HORIZONTAL"/>
+                <Button fx:id="btnSearch" text="Szukaj" onAction="#btnSearchClicked"/>
             </children>
         </VBox>
         <VBox minWidth="300">
-            <ListView fx:id="songList"/>
+            <children>
+                <ListView fx:id="distinctTitlesList"/>
+                <ListView fx:id="songsList"/>
+            </children>
         </VBox>
 </SplitPane>

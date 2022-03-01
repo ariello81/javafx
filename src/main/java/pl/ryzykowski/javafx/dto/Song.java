@@ -1,6 +1,6 @@
 package pl.ryzykowski.javafx.dto;
 
-public class Song {
+public class Song implements Comparable<Song> {
 
     private String title;
     private String artist;
@@ -47,5 +47,15 @@ public class Song {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    @Override
+    public String toString() {
+        return dateTime + ": " + title;
+    }
+
+    @Override
+    public int compareTo(Song o) {
+        return this.dateTime.compareTo(o.dateTime);
     }
 }
