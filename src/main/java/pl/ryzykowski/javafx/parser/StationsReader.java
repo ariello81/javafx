@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StationsReader {
 
-    List<Station> getStations();
+    List<Station> readStations();
     Station getStation(String id);
 
 }

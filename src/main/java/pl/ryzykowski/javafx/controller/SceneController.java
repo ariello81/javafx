@@ -39,7 +39,7 @@ public class SceneController {
 
     @FXML
     private void initialize() {
-        comboStations.getItems().addAll(stationsReader.getStations());
+        comboStations.getItems().addAll(stationsReader.readStations());
     }
 
     @FXML
