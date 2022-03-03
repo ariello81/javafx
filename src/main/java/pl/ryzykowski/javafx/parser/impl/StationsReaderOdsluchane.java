@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StationsReaderOdsluchane implements StationsReader {
 
-    private static final String FILE_PATH = "e:/export/javafx/src/main/resources/stations.csv";
+    private static final String FILE_PATH = "stations.csv";
     private static final String FILE_CHARSET = "UTF-8";
     private static final String FILE_SEPARATOR = ";";
 
